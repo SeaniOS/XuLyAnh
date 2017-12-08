@@ -33,7 +33,11 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.BtnBrowse2 = new System.Windows.Forms.Button();
             this.BtnSetPictureBox1 = new System.Windows.Forms.Button();
-            this.Lbl1 = new System.Windows.Forms.Label();
+            this.lblBitString1 = new System.Windows.Forms.Label();
+            this.lblBinNumber1 = new System.Windows.Forms.Label();
+            this.lblBinNumber2 = new System.Windows.Forms.Label();
+            this.lblBitString2 = new System.Windows.Forms.Label();
+            this.btnCompare = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -80,29 +84,70 @@
             // 
             // BtnSetPictureBox1
             // 
-            this.BtnSetPictureBox1.Location = new System.Drawing.Point(173, 584);
+            this.BtnSetPictureBox1.Location = new System.Drawing.Point(886, 792);
             this.BtnSetPictureBox1.Name = "BtnSetPictureBox1";
             this.BtnSetPictureBox1.Size = new System.Drawing.Size(80, 40);
             this.BtnSetPictureBox1.TabIndex = 4;
             this.BtnSetPictureBox1.Text = "Browse";
             this.BtnSetPictureBox1.UseVisualStyleBackColor = true;
-            this.BtnSetPictureBox1.Click += new System.EventHandler(this.BtnSetPictureBox1_Click);
+            this.BtnSetPictureBox1.Visible = false;
             // 
-            // Lbl1
+            // lblBitString1
             // 
-            this.Lbl1.AutoSize = true;
-            this.Lbl1.Location = new System.Drawing.Point(173, 680);
-            this.Lbl1.Name = "Lbl1";
-            this.Lbl1.Size = new System.Drawing.Size(51, 20);
-            this.Lbl1.TabIndex = 6;
-            this.Lbl1.Text = "label1";
+            this.lblBitString1.AutoSize = true;
+            this.lblBitString1.Location = new System.Drawing.Point(12, 545);
+            this.lblBitString1.Name = "lblBitString1";
+            this.lblBitString1.Size = new System.Drawing.Size(73, 20);
+            this.lblBitString1.TabIndex = 6;
+            this.lblBitString1.Text = "Chuỗi Bit";
+            // 
+            // lblBinNumber1
+            // 
+            this.lblBinNumber1.AutoSize = true;
+            this.lblBinNumber1.Location = new System.Drawing.Point(12, 501);
+            this.lblBinNumber1.Name = "lblBinNumber1";
+            this.lblBinNumber1.Size = new System.Drawing.Size(77, 20);
+            this.lblBinNumber1.TabIndex = 7;
+            this.lblBinNumber1.Text = "Chuỗi Bin";
+            // 
+            // lblBinNumber2
+            // 
+            this.lblBinNumber2.AutoSize = true;
+            this.lblBinNumber2.Location = new System.Drawing.Point(12, 620);
+            this.lblBinNumber2.Name = "lblBinNumber2";
+            this.lblBinNumber2.Size = new System.Drawing.Size(77, 20);
+            this.lblBinNumber2.TabIndex = 8;
+            this.lblBinNumber2.Text = "Chuỗi Bin";
+            // 
+            // lblBitString2
+            // 
+            this.lblBitString2.AutoSize = true;
+            this.lblBitString2.Location = new System.Drawing.Point(12, 673);
+            this.lblBitString2.Name = "lblBitString2";
+            this.lblBitString2.Size = new System.Drawing.Size(73, 20);
+            this.lblBitString2.TabIndex = 9;
+            this.lblBitString2.Text = "Chuỗi Bit";
+            // 
+            // btnCompare
+            // 
+            this.btnCompare.Location = new System.Drawing.Point(441, 447);
+            this.btnCompare.Name = "btnCompare";
+            this.btnCompare.Size = new System.Drawing.Size(90, 40);
+            this.btnCompare.TabIndex = 10;
+            this.btnCompare.Text = "Compare";
+            this.btnCompare.UseVisualStyleBackColor = true;
+            this.btnCompare.Click += new System.EventHandler(this.btnCompare_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(978, 744);
-            this.Controls.Add(this.Lbl1);
+            this.ClientSize = new System.Drawing.Size(978, 844);
+            this.Controls.Add(this.btnCompare);
+            this.Controls.Add(this.lblBitString2);
+            this.Controls.Add(this.lblBinNumber2);
+            this.Controls.Add(this.lblBinNumber1);
+            this.Controls.Add(this.lblBitString1);
             this.Controls.Add(this.BtnSetPictureBox1);
             this.Controls.Add(this.BtnBrowse2);
             this.Controls.Add(this.pictureBox2);
@@ -125,7 +170,11 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button BtnBrowse2;
         private System.Windows.Forms.Button BtnSetPictureBox1;
-        private System.Windows.Forms.Label Lbl1;
+        private System.Windows.Forms.Label lblBitString1;
+        private System.Windows.Forms.Label lblBinNumber1;
+        private System.Windows.Forms.Label lblBinNumber2;
+        private System.Windows.Forms.Label lblBitString2;
+        private System.Windows.Forms.Button btnCompare;
     }
 }
 

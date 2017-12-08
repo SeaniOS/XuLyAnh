@@ -18,7 +18,7 @@ namespace XuLyAnh
         private Bitmap bm1;
         private Bitmap bm2;
 
-        private Dictionary<String, Color> dicColors;
+        //private Dictionary<String, Color> dicColors;
 
         public Form1()
         {
@@ -29,6 +29,17 @@ namespace XuLyAnh
         {
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            /*
+            double rate = ((double)12) / ((double)100) * 100;
+            var first = rate / 10;
+            var _first = Math.Round(rate / 10);
+            var last = first - _first;
+            if (last > 0)
+            {
+                _first = _first + 1;
+            }
+            MessageBox.Show(_first.ToString());
+            */
         }
 
         // BtnBrowse1
@@ -50,9 +61,11 @@ namespace XuLyAnh
                         bm1 = new Bitmap(ofd.FileName);
                         pictureBox1.Image = bm1;
 
+                        // mảng 3 chiều R G B
                         byte[,,] arrBGRBytes = BitmapToBGRBytes(bm1);
                         //MessageBox.Show(arrBGRBytes1.Length.ToString());
 
+                        // mảng số lượng mỗi màu thành phần
                         int[] arrColorComponentsNumber = GetColorComponentsNumber(bm1, arrBGRBytes);
                         /*
                         int count = 0;
@@ -63,14 +76,32 @@ namespace XuLyAnh
                         MessageBox.Show(count.ToString());
                         */
 
+                        // mảng tỉ lệ mỗi màu thành phần -> bin
                         int[] arrColorComponentsRate = GetColorComponentsRate(arrColorComponentsNumber);
 
+                        var binNumbers1 = "";
                         for (int i = 0; i < arrColorComponentsRate.Length; i++)
                         {
-                            MessageBox.Show(arrColorComponentsRate[i].ToString());
+                            binNumbers1 = binNumbers1 + arrColorComponentsRate[i];
+                            if ((i + 1) % 9 == 0)
+                            {
+                                binNumbers1 += " ";
+                            }
                         }
 
+                        // dãy nhị phân của hình
+                        string bitStringRecognization = "";
+                        for (int i = 0; i < arrColorComponentsRate.Length; i++)
+                        {
+                            bitStringRecognization = bitStringRecognization + BinToBitString(arrColorComponentsRate[i]) + " ";
+                            if ((i + 1) % 9 == 0)
+                            {
+                                bitStringRecognization += "\n";
+                            }
+                        }
 
+                        lblBinNumber1.Text = binNumbers1;
+                        lblBitString1.Text = bitStringRecognization;
                         //var dic = BitmapToColors(bm1, arrBGRBytes1);
                         //dicColors = dic;
                     }
@@ -82,6 +113,7 @@ namespace XuLyAnh
             }
         }
 
+        // BtnBrowse2
         private void BtnBrowse2_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog()
@@ -98,9 +130,40 @@ namespace XuLyAnh
                     if (ofd.FileName != null)
                     {
                         bm2 = new Bitmap(ofd.FileName);
-                        //mHandler.MyBitmap1 = (Bitmap)Bitmap.FromFile(ofd.FileName);
                         pictureBox2.Image = bm2;
-                        byte[,,] arrBGRBytes2 = BitmapToBGRBytes(bm2);
+
+                        // mảng 3 chiều R G B
+                        byte[,,] arrBGRBytes = BitmapToBGRBytes(bm2);
+
+                        // mảng số lượng mỗi màu thành phần
+                        int[] arrColorComponentsNumber = GetColorComponentsNumber(bm2, arrBGRBytes);
+
+                        // mảng tỉ lệ mỗi màu thành phần -> bin
+                        int[] arrColorComponentsRate = GetColorComponentsRate(arrColorComponentsNumber);
+
+                        var binNumbers2 = "";
+                        for (int i = 0; i < arrColorComponentsRate.Length; i++)
+                        {
+                            binNumbers2 = binNumbers2 + arrColorComponentsRate[i];
+                            if ((i + 1) % 9 == 0)
+                            {
+                                binNumbers2 += " ";
+                            }
+                        }
+
+                        // dãy nhị phân của hình
+                        string bitStringRecognization = "";
+                        for (int i = 0; i < arrColorComponentsRate.Length; i++)
+                        {
+                            bitStringRecognization = bitStringRecognization + BinToBitString(arrColorComponentsRate[i]) + " ";
+                            if ((i + 1) % 9 == 0)
+                            {
+                                bitStringRecognization += "\n";
+                            }
+                        }
+
+                        lblBinNumber2.Text = binNumbers2;
+                        lblBitString2.Text = bitStringRecognization;
                     }
                 }
                 catch (Exception ex)
@@ -140,7 +203,7 @@ namespace XuLyAnh
             }
             return result;
         }
-
+        /*
         // BitmapToColors
         private Dictionary<String, Color> BitmapToColors(Bitmap bitmap, byte[,,] arr)
         {
@@ -164,7 +227,7 @@ namespace XuLyAnh
             return dic;
 
         }
-
+        */
         // GetColorComponents
         private int[] GetColorComponentsNumber(Bitmap bitmap, byte[,,] arr)
         {
@@ -233,6 +296,38 @@ namespace XuLyAnh
             return arrRateColorComponents;
         }
 
+        // 1 -> 10
+        private string BinToBitString(int binValue)
+        {
+            if (binValue == 0)
+            {
+                return "0000000000";
+            }
+
+            // init
+            string[] str = new string[10];
+            for (int i = 0; i < 10; i++)
+            {
+                str[i] = "0";
+            }
+
+            str[binValue - 1] = "1";
+
+            string bitString = "";
+            for (int i = 0; i < 10; i++)
+            {
+                bitString = bitString + str[i];
+            }
+
+            return bitString;
+        }
+
+        private void btnCompare_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Compare");
+        }
+
+        /*
         private void ShowColors(Dictionary<String, Color> dic)
         {
             try
@@ -270,10 +365,12 @@ namespace XuLyAnh
                 "Check the path to the image file.");
             }
         }
-
+        */
+        /*
         private void BtnSetPictureBox1_Click(object sender, EventArgs e)
         {
             ShowColors(dicColors);
         }
+        */
     }
 }
