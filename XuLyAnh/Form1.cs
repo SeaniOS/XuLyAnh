@@ -15,19 +15,10 @@ namespace XuLyAnh
     public partial class Form1 : Form
     {
 
-        class MyPoint
-        {
-            int x;
-            int y;
-
-            public MyPoint(int x, int y)
-            {
-                this.x = x;
-                this.y = y;
-            }
-        }
-
         private Bitmap bm1;
+
+
+
         private Bitmap bm2;
         private Dictionary<String, Color> dicColors;
 
@@ -60,9 +51,9 @@ namespace XuLyAnh
                         bm1 = new Bitmap(ofd.FileName);
                         //mHandler.MyBitmap1 = (Bitmap)Bitmap.FromFile(ofd.FileName);
                         pictureBox1.Image = bm1;
-                        byte[,,] arr1 = BitmapToBytes(bm1);
-                        BitmapToColors(bm1, arr1);
-                        var dic = BitmapToColors(bm1, arr1);
+                        byte[,,] arrBGRBytes1 = BitmapToBGRBytes(bm1);
+                        BitmapToColors(bm1, arrBGRBytes1);
+                        var dic = BitmapToColors(bm1, arrBGRBytes1);
                         dicColors = dic;
                     }
                 }
@@ -91,7 +82,7 @@ namespace XuLyAnh
                         bm2 = new Bitmap(ofd.FileName);
                         //mHandler.MyBitmap1 = (Bitmap)Bitmap.FromFile(ofd.FileName);
                         pictureBox2.Image = bm2;
-                        byte[,,] arr2 = BitmapToBytes(bm2);
+                        byte[,,] arrBGRBytes2 = BitmapToBGRBytes(bm2);
                     }
                 }
                 catch (Exception ex)
@@ -101,7 +92,7 @@ namespace XuLyAnh
             }
         }
 
-        private byte[,,] BitmapToBytes(Bitmap bitmap)
+        private byte[,,] BitmapToBGRBytes(Bitmap bitmap)
         {
             BitmapData bitmapData =
                 bitmap.LockBits(new Rectangle(new Point(), bitmap.Size), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
@@ -190,6 +181,10 @@ namespace XuLyAnh
                 MessageBox.Show("There was an error." +
                 "Check the path to the image file.");
             }
+        }
+
+        private void bitmapFromArray(byte[,,] arr)
+        {
         }
 
         private void BtnSetPictureBox1_Click(object sender, EventArgs e)
