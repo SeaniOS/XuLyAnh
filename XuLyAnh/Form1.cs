@@ -14,12 +14,10 @@ namespace XuLyAnh
 {
     public partial class Form1 : Form
     {
-
+        // Variables
         private Bitmap bm1;
-
-
-
         private Bitmap bm2;
+
         private Dictionary<String, Color> dicColors;
 
         public Form1()
@@ -33,6 +31,7 @@ namespace XuLyAnh
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
+        // BtnBrowse1
         private void BtnBrowse1_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog()
@@ -49,12 +48,23 @@ namespace XuLyAnh
                     if (ofd.FileName != null)
                     {
                         bm1 = new Bitmap(ofd.FileName);
-                        //mHandler.MyBitmap1 = (Bitmap)Bitmap.FromFile(ofd.FileName);
                         pictureBox1.Image = bm1;
+
                         byte[,,] arrBGRBytes1 = BitmapToBGRBytes(bm1);
-                        BitmapToColors(bm1, arrBGRBytes1);
-                        var dic = BitmapToColors(bm1, arrBGRBytes1);
-                        dicColors = dic;
+                        //MessageBox.Show(arrBGRBytes1.Length.ToString());
+
+                        int[] arrColorComponents1 = GetColorComponents(bm1, arrBGRBytes1);
+                        /*
+                        int count = 0;
+                        for (int i = 0; i < arrColorComponents1.Length; i++)
+                        {
+                            count = count + arrColorComponents1[i];
+                        }
+                        MessageBox.Show(count.ToString());
+                        */
+
+                        //var dic = BitmapToColors(bm1, arrBGRBytes1);
+                        //dicColors = dic;
                     }
                 }
                 catch (Exception ex)
@@ -92,6 +102,7 @@ namespace XuLyAnh
             }
         }
 
+        // BitmapToBGRBytes
         private byte[,,] BitmapToBGRBytes(Bitmap bitmap)
         {
             BitmapData bitmapData =
@@ -122,6 +133,7 @@ namespace XuLyAnh
             return result;
         }
 
+        // BitmapToColors
         private Dictionary<String, Color> BitmapToColors(Bitmap bitmap, byte[,,] arr)
         {
             var dic = new Dictionary<String, Color>();
@@ -142,6 +154,34 @@ namespace XuLyAnh
 
             }
             return dic;
+
+        }
+
+        // GetColorComponents
+        private int[] GetColorComponents(Bitmap bitmap, byte[,,] arr)
+        {
+            // init
+            int[] arrColorComponents = new int[27];
+            for (int i = 0; i < arrColorComponents.Length; i++)
+            {
+                arrColorComponents[i] = 0;
+            }
+
+            // get
+            for (int i = 0; i < bitmap.Width; i++)
+            {
+                for (int j = 0; j < bitmap.Height; j++)
+                {
+                    int R = int.Parse(arr[2, i, j].ToString());
+                    int G = int.Parse(arr[1, i, j].ToString());
+                    int B = int.Parse(arr[0, i, j].ToString());
+                    MyColor myColor = new MyColor(R, G, B);
+                    int colorClass = myColor.GetColorClass();
+                    arrColorComponents[colorClass]++;
+                }
+
+            }
+            return arrColorComponents;
 
         }
 
