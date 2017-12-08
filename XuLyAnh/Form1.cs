@@ -50,10 +50,10 @@ namespace XuLyAnh
                         bm1 = new Bitmap(ofd.FileName);
                         pictureBox1.Image = bm1;
 
-                        byte[,,] arrBGRBytes1 = BitmapToBGRBytes(bm1);
+                        byte[,,] arrBGRBytes = BitmapToBGRBytes(bm1);
                         //MessageBox.Show(arrBGRBytes1.Length.ToString());
 
-                        int[] arrColorComponents1 = GetColorComponents(bm1, arrBGRBytes1);
+                        int[] arrColorComponentsNumber = GetColorComponentsNumber(bm1, arrBGRBytes);
                         /*
                         int count = 0;
                         for (int i = 0; i < arrColorComponents1.Length; i++)
@@ -62,6 +62,14 @@ namespace XuLyAnh
                         }
                         MessageBox.Show(count.ToString());
                         */
+
+                        int[] arrColorComponentsRate = GetColorComponentsRate(arrColorComponentsNumber);
+
+                        for (int i = 0; i < arrColorComponentsRate.Length; i++)
+                        {
+                            MessageBox.Show(arrColorComponentsRate[i].ToString());
+                        }
+
 
                         //var dic = BitmapToColors(bm1, arrBGRBytes1);
                         //dicColors = dic;
@@ -158,7 +166,7 @@ namespace XuLyAnh
         }
 
         // GetColorComponents
-        private int[] GetColorComponents(Bitmap bitmap, byte[,,] arr)
+        private int[] GetColorComponentsNumber(Bitmap bitmap, byte[,,] arr)
         {
             // init
             int[] arrColorComponents = new int[27];
@@ -183,6 +191,46 @@ namespace XuLyAnh
             }
             return arrColorComponents;
 
+        }
+
+        // thành phần màu -> rời rạc thành 10 bin nhị phân: 0100000000_1000000000_0000000100
+        private int[] GetColorComponentsRate(int[] arrColorComponents)
+        {
+            // tổng số màu
+            int totalColorPixel = 0;
+            for (int i = 0; i < arrColorComponents.Length; i++)
+            {
+                totalColorPixel = totalColorPixel + arrColorComponents[i];
+            }
+
+            // init mảng tỉ lệ
+            int[] arrRateColorComponents = new int[27];
+            for (int i = 0; i < arrRateColorComponents.Length; i++)
+            {
+                arrRateColorComponents[i] = 0;
+
+                if (i == arrRateColorComponents.Length - 1)
+                {
+                    arrRateColorComponents[i] = 10; // 10 bit
+                }
+            }
+
+            // Duyệt các thành phần màu
+            for (int i = 0; i < arrColorComponents.Length - 1; i++)
+            {
+                double rate = ((double)arrColorComponents[i]) / ((double)totalColorPixel) * 10;
+                int colorRate = (int)Math.Round(rate);
+
+                arrRateColorComponents[i] = colorRate;
+            }
+
+            // last color component
+            for (int i = 0; i < arrRateColorComponents.Length - 1; i++)
+            {
+                arrRateColorComponents[26] = arrRateColorComponents[26] - arrRateColorComponents[i];
+            }
+
+            return arrRateColorComponents;
         }
 
         private void ShowColors(Dictionary<String, Color> dic)
@@ -221,10 +269,6 @@ namespace XuLyAnh
                 MessageBox.Show("There was an error." +
                 "Check the path to the image file.");
             }
-        }
-
-        private void bitmapFromArray(byte[,,] arr)
-        {
         }
 
         private void BtnSetPictureBox1_Click(object sender, EventArgs e)
