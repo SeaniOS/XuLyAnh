@@ -17,6 +17,8 @@ namespace XuLyAnh
         // Variables
         private Bitmap bm1;
         private Bitmap bm2;
+        private string bitString1;
+        private string bitString2;
 
         //private Dictionary<String, Color> dicColors;
 
@@ -93,15 +95,19 @@ namespace XuLyAnh
                         string bitStringRecognization = "";
                         for (int i = 0; i < arrColorComponentsRate.Length; i++)
                         {
-                            bitStringRecognization = bitStringRecognization + BinToBitString(arrColorComponentsRate[i]) + " ";
+                            bitStringRecognization = bitStringRecognization + BinToBitString(arrColorComponentsRate[i]);
+                            /*
                             if ((i + 1) % 9 == 0)
                             {
                                 bitStringRecognization += "\n";
                             }
+                            */
                         }
 
                         lblBinNumber1.Text = binNumbers1;
-                        lblBitString1.Text = bitStringRecognization;
+                        txt1.Text = bitStringRecognization;
+
+                        bitString1 = bitStringRecognization;
                         //var dic = BitmapToColors(bm1, arrBGRBytes1);
                         //dicColors = dic;
                     }
@@ -155,15 +161,20 @@ namespace XuLyAnh
                         string bitStringRecognization = "";
                         for (int i = 0; i < arrColorComponentsRate.Length; i++)
                         {
-                            bitStringRecognization = bitStringRecognization + BinToBitString(arrColorComponentsRate[i]) + " ";
+                            bitStringRecognization = bitStringRecognization + BinToBitString(arrColorComponentsRate[i]);
+                            /*
                             if ((i + 1) % 9 == 0)
                             {
                                 bitStringRecognization += "\n";
                             }
+                            */
                         }
 
                         lblBinNumber2.Text = binNumbers2;
-                        lblBitString2.Text = bitStringRecognization;
+                        txt2.Text = bitStringRecognization;
+
+                        bitString2 = bitStringRecognization;
+
                     }
                 }
                 catch (Exception ex)
@@ -302,6 +313,7 @@ namespace XuLyAnh
             if (binValue == 0)
             {
                 return "0000000000";
+                //return "#";
             }
 
             // init
@@ -322,9 +334,52 @@ namespace XuLyAnh
             return bitString;
         }
 
-        private void btnCompare_Click(object sender, EventArgs e)
+        private void BtnCompare_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Compare");
+            if (bitString1 == null)
+            {
+                MessageBox.Show("Input picture 1");
+                return;
+            }
+
+            if (bitString2 == null)
+            {
+                MessageBox.Show("Input picture 2");
+                return;
+            }
+
+            int countColor = 0;
+            int result = 0;
+            for (int i = 0; i < 27; i++)
+            {
+                var value1 = BitToBin(bitString1.Substring(countColor, 10));
+                //MessageBox.Show(value1.ToString());
+                //MessageBox.Show(bitString1.Substring(countColor, 10));
+                var value2 = BitToBin(bitString2.Substring(countColor, 10));
+                //MessageBox.Show(value2.ToString());
+                //MessageBox.Show(bitString2.Substring(countColor, 10));
+                var _result = Math.Abs(value1 - value2);
+                countColor = countColor + 10;
+                //MessageBox.Show(_result.ToString());
+                result = result + _result;
+            }
+
+            MessageBox.Show(result.ToString());
+            //var binValue = BitToBin("0000000001");
+            //MessageBox.Show(binValue.ToString());
+        }
+
+        private int BitToBin(string bitString)
+        {
+            if (bitString.Contains('1'))
+            {
+                return bitString.IndexOf('1') + 1;
+            }
+            else
+            {
+                return 0;
+            }
+
         }
 
         /*
